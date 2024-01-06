@@ -16,32 +16,40 @@ public class MaterialController : ControllerBase
     }
 
   
-[HttpGet]
-public async Task<ActionResult<IEnumerable<MaterialDto>>> SearchMaterialsByName(string name, int page = 1, int pageSize = 10)
-{
-    var materials = await _context.Materials
-        .Where(m => EF.Functions.ILike(m.MaterialName, $"%{name}%"))
-        .OrderBy(m => m.Id)
-        .Skip((page - 1) * pageSize)
-        .Take(pageSize)
-        .Select(m => new MaterialDto { Id = m.Id, MaterialName = m.MaterialName, FullName = m.FullName })
-        .ToListAsync();
-
-    return Ok(materials);
-}
-
-[HttpGet("{id}")]
-public async Task<ActionResult<MaterialDto>> GetMaterialDetails(int id)
+[HttpGet("{materialName}")]
+public async Task<ActionResult<MaterialDto>> GetMaterial(string materialName)
 {
     var material = await _context.Materials
-        .Where(m => m.Id == id)
-        .Select(m => new MaterialDto { Id = m.Id, MaterialName = m.MaterialName, FullName = m.FullName })
-        .FirstOrDefaultAsync();
+        .Include(m => m.Products)
+            .ThenInclude(p => p.Brand)
+            .ThenInclude(b => b.Manufacturer)
+        .FirstOrDefaultAsync(m => m.MaterialName == materialName);
 
     if (material == null)
+    {
         return NotFound();
+    }
 
-    return Ok(material);
+    var materialDto = new MaterialDto
+    {
+        Id = material.Id,
+        MaterialName = material.MaterialName,
+        FullName = material.FullName,
+        Products = material.Products.Select(p => new ProductDto
+        {
+            MaterialId = p.MaterialId,
+            BrandTitle = p.Brand.Title,
+            ManufacturerTitle = p.Brand.Manufacturer.Title,
+            Cas = p.Cas,
+            Ghg = p.Ghg,
+            EnergyInput = p.EnergyInput,
+            EuRegulation = p.EuRegulation,
+            SupplyRisk = p.SupplyRisk,
+            CriticalValue = p.CriticalValue
+        }).ToList()
+    };
+
+    return Ok(materialDto);
 }
 
 }

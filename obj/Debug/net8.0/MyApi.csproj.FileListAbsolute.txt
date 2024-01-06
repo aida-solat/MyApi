@@ -103,3 +103,8 @@
 /Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/obj/Debug/net8.0/MyApi.sourcelink.json
+/Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/ida/Aidoo/Projects/My Challenges/V-Research/MyApi/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
