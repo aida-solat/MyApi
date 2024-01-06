@@ -15,41 +15,40 @@ public class MaterialController : ControllerBase
         _context = context;
     }
 
-  
-[HttpGet("{materialName}")]
-public async Task<ActionResult<MaterialDto>> GetMaterial(string materialName)
-{
-    var material = await _context.Materials
-        .Include(m => m.Products)
-            .ThenInclude(p => p.Brand)
-            .ThenInclude(b => b.Manufacturer)
-        .FirstOrDefaultAsync(m => m.MaterialName == materialName);
 
-    if (material == null)
+    [HttpGet("{materialName}")]
+    public async Task<ActionResult<MaterialDto>> GetMaterial(string materialName)
     {
-        return NotFound();
-    }
+        var material = await _context.Materials
+            .Include(m => m.Products)
+                .ThenInclude(p => p.Brand)
+                .ThenInclude(b => b.Manufacturer)
+            .FirstOrDefaultAsync(m => m.MaterialName == materialName);
 
-    var materialDto = new MaterialDto
-    {
-        Id = material.Id,
-        MaterialName = material.MaterialName,
-        FullName = material.FullName,
-        Products = material.Products.Select(p => new ProductDto
+        if (material == null)
         {
-            MaterialId = p.MaterialId,
-            BrandTitle = p.Brand.Title,
-            ManufacturerTitle = p.Brand.Manufacturer.Title,
-            Cas = p.Cas,
-            Ghg = p.Ghg,
-            EnergyInput = p.EnergyInput,
-            EuRegulation = p.EuRegulation,
-            SupplyRisk = p.SupplyRisk,
-            CriticalValue = p.CriticalValue
-        }).ToList()
-    };
+            return NotFound();
+        }
 
-    return Ok(materialDto);
-}
+        var materialDto = new MaterialDto
+        {
+            Id = material.Id,
+            MaterialName = material.MaterialName,
+            FullName = material.FullName,
+            Products = material.Products.Select(p => new ProductDto
+            {
+                BrandTitle = p.Brand.Title,
+                ManufacturerTitle = p.Brand.Manufacturer.Title,
+                Cas = p.Cas,
+                Ghg = p.Ghg,
+                EnergyInput = p.EnergyInput,
+                EuRegulation = p.EuRegulation,
+                SupplyRisk = p.SupplyRisk,
+                CriticalValue = p.CriticalValue
+            }).ToList()
+        };
+
+        return Ok(materialDto);
+    }
 
 }

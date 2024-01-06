@@ -1,6 +1,6 @@
 public class ProductDto
 {
-    public int MaterialId { get; set; }
+
     public string BrandTitle { get; set; }
     public string ManufacturerTitle { get; set; }
     public string? Cas { get; set; }
