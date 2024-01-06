@@ -21,6 +21,14 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+
+        services.AddCors(options =>
+   {
+       options.AddPolicy("AllowMyOrigin",
+           builder => builder.WithOrigins("http://localhost:3000") // Replace with your front-end application's origin
+                             .AllowAnyHeader()
+                             .AllowAnyMethod());
+   });
         // Configure database context
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
@@ -53,6 +61,8 @@ public class Startup
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyApi v1");
             });
         }
+
+        app.UseCors("AllowMyOrigin");
 
         //  app.UseHttpsRedirection();
 
